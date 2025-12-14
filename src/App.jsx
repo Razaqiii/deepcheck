@@ -192,10 +192,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
               <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img 
-                  src="public\images\Screenshot 2025-12-15 011350.png" 
-                  alt="Disinformation" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                <img
+                  src="/images/disinformation.png"
+                  alt="Disinformation"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Disinformation Campaigns</h3>
@@ -207,10 +207,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
               <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img 
-                  src="public\images\190418095933-20190418-facial-recognition-dataset-2-gfx.jpg" 
-                  alt="Media Integrity" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                <img
+                  src="/images/journalistic.jpg"
+                  alt="Media Integrity"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Journalistic Integrity</h3>
@@ -222,10 +222,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
                <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img 
-                  src="public\images\deep-fake-bias-neurosicence.jpg" 
-                  alt="Identity Fraud" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                <img
+                  src="/images/identityfraud.jpg"
+                  alt="Identity Fraud"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Synthetic Identity Fraud</h3>
@@ -237,10 +237,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
                <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img 
-                  src="public\images\Screenshot 2025-12-15 011900.png" 
-                  alt="Commercial Fraud" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                <img
+                  src="/images/ecommerce.png"
+                  alt="Commercial Fraud"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">E-Commerce Deception</h3>
