@@ -38,3 +38,4 @@ kaggle.json
 *.sln
 *.sw?
 Thumbs.db
+*.keras
