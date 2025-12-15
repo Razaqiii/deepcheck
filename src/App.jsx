@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { 
   ScanFace, ArrowRight, Upload, AlertTriangle, 
-  CheckCircle, Activity, Cpu, Zap, Search, ChevronDown
+  CheckCircle, Activity, Cpu, Zap, Search, ChevronDown, Info, Timer, Target
 } from 'lucide-react';
 
 export default function App() {
@@ -11,6 +11,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [selectedModel, setSelectedModel] = useState("Xception");
+  const [latency, setLatency] = useState(0);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -19,16 +20,23 @@ export default function App() {
     setPreview(URL.createObjectURL(file));
     setResult(null);
     setLoading(true);
+    setLatency(0);
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('model_type', selectedModel);
+
+    const startTime = Date.now();
 
     try {
       const response = await axios.post('https://hunterrrk-deepcheck-backend.hf.space/predict', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
+      // Stop Timer
+      const endTime = Date.now();
+      setLatency(endTime - startTime); 
+
       setTimeout(() => {
         setResult(response.data);
         setLoading(false);
@@ -95,7 +103,7 @@ export default function App() {
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00404a] border border-[#006d7d] text-emerald-400 text-xs font-mono mb-8">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-            <span>V2.0 LIVE</span>
+            <span>SYSTEM ONLINE</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight mb-8 leading-[1.1]">
@@ -110,9 +118,6 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button onClick={scrollToDetector} className="px-8 py-4 bg-white text-[#005461] font-bold rounded-xl hover:bg-gray-100 transition-all hover:-translate-y-1 shadow-lg shadow-black/20 flex items-center gap-2">
               Check Image Now <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="px-8 py-4 bg-transparent border border-[#00B7B5]/30 text-[#00B7B5] font-semibold rounded-xl hover:bg-[#00B7B5]/10 transition-all flex items-center gap-2">
-              See Examples
             </button>
           </div>
         </div>
@@ -135,9 +140,9 @@ export default function App() {
                  <ScanFace className="w-6 h-6" />
                </div>
                <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3">Step 1</span>
-               <h3 className="font-bold text-lg text-gray-900 mb-3">Finds the Face</h3>
+               <h3 className="font-bold text-lg text-gray-900 mb-3">Face Detection</h3>
                <p className="text-gray-500 text-sm leading-relaxed px-4">
-                 The tool automatically finds the person in your photo and ignores the background.
+                 The engine uses computer vision to detect the face and crops out the background to focus strictly on facial features.
                </p>
             </div>
 
@@ -146,9 +151,9 @@ export default function App() {
                  <Search className="w-6 h-6" />
                </div>
                <span className="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3">Step 2</span>
-               <h3 className="font-bold text-lg text-gray-900 mb-3">Scans Details</h3>
+               <h3 className="font-bold text-lg text-gray-900 mb-3">Tensor Conversion</h3>
                <p className="text-gray-500 text-sm leading-relaxed px-4">
-                 It looks closely at tiny pixel details like eyes and skin texture that human eyes might miss.
+                 The image is resized and converted into a mathematical grid of pixels (tensor) to prepare for deep analysis.
                </p>
             </div>
 
@@ -157,9 +162,9 @@ export default function App() {
                  <Cpu className="w-6 h-6" />
                </div>
                <span className="text-xs font-bold text-orange-600 uppercase tracking-widest mb-3">Step 3</span>
-               <h3 className="font-bold text-lg text-gray-900 mb-3">AI Comparison</h3>
+               <h3 className="font-bold text-lg text-gray-900 mb-3">Pattern Recognition</h3>
                <p className="text-gray-500 text-sm leading-relaxed px-4">
-                 Our smart engine compares your image against thousands of known real and fake photos.
+                 Our neural network analyzes the pixel data to find high-frequency artifacts and invisible patterns common in AI generation.
                </p>
             </div>
 
@@ -168,9 +173,9 @@ export default function App() {
                  <CheckCircle className="w-6 h-6" />
                </div>
                <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">Step 4</span>
-               <h3 className="font-bold text-lg text-gray-900 mb-3">Instant Result</h3>
+               <h3 className="font-bold text-lg text-gray-900 mb-3">Confidence Score</h3>
                <p className="text-gray-500 text-sm leading-relaxed px-4">
-                 You get a clear answer instantly: is the image Real or AI Generated?
+                 The model calculates a raw probability score to determine if the image is Real or Fake with high precision.
                </p>
             </div>
 
@@ -192,10 +197,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
               <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img
-                  src="/images/disinformation.png"
-                  alt="Disinformation"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                <img 
+                  src="/images/disinformation.png" 
+                  alt="Disinformation" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Disinformation Campaigns</h3>
@@ -207,10 +212,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
               <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img
-                  src="/images/journalistic.jpg"
-                  alt="Media Integrity"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                <img 
+                  src="/images/journalistic.jpg" 
+                  alt="Media Integrity" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Journalistic Integrity</h3>
@@ -222,10 +227,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
                <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img
-                  src="/images/identityfraud.jpg"
-                  alt="Identity Fraud"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                <img 
+                  src="/images/identityfraud.jpg" 
+                  alt="Identity Fraud" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Synthetic Identity Fraud</h3>
@@ -237,10 +242,10 @@ export default function App() {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all group">
                <div className="w-full h-52 bg-gray-100 rounded-xl mb-6 overflow-hidden relative">
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-                <img
-                  src="/images/ecommerce.png"
-                  alt="Commercial Fraud"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                <img 
+                  src="/images/ecommerce.png" 
+                  alt="Commercial Fraud" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">E-Commerce Deception</h3>
@@ -317,6 +322,14 @@ export default function App() {
                     </div>
                   )}
                 </div>
+
+                <div className="mt-6 flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-100 rounded-xl text-left">
+                  <Info className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+                  <p className="text-xs text-yellow-700 leading-relaxed font-medium">
+                    <strong>Disclaimer:</strong> AI detection is probabilistic, not absolute. Results may vary based on image quality and lighting. Do not use this as the sole basis for definitive judgments.
+                  </p>
+                </div>
+
               </div>
 
               <div className="p-8 md:p-12 bg-gray-50/30 flex flex-col justify-center">
@@ -329,13 +342,13 @@ export default function App() {
                   <div className="animate-fade-in space-y-8">
                     
                     <div>
-                       <div className="flex items-center gap-2 mb-3">
-                         {result.is_fake ? <AlertTriangle className="w-5 h-5 text-red-500" /> : <CheckCircle className="w-5 h-5 text-emerald-500" />}
-                         <span className="font-mono text-xs font-bold text-gray-400 uppercase tracking-wider">Result</span>
-                       </div>
-                       <div className={`text-5xl font-black tracking-tight ${result.is_fake ? 'text-red-600' : 'text-emerald-600'}`}>
-                         {result.is_fake ? 'AI GENERATED' : 'REAL IMAGE'}
-                       </div>
+                        <div className="flex items-center gap-2 mb-3">
+                          {result.is_fake ? <AlertTriangle className="w-5 h-5 text-red-500" /> : <CheckCircle className="w-5 h-5 text-emerald-500" />}
+                          <span className="font-mono text-xs font-bold text-gray-400 uppercase tracking-wider">Result</span>
+                        </div>
+                        <div className={`text-5xl font-black tracking-tight ${result.is_fake ? 'text-red-600' : 'text-emerald-600'}`}>
+                          {result.is_fake ? 'AI GENERATED' : 'REAL IMAGE'}
+                        </div>
                     </div>
 
                     <div className="h-px bg-gray-200 w-full"></div>
@@ -354,14 +367,27 @@ export default function App() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-                        <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Mode</div>
-                        <div className="text-sm font-semibold text-gray-900">{selectedModel === 'Xception' ? 'Detailed' : 'Fast'}</div>
+                      
+                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex flex-col justify-between">
+                        <div className="flex items-center gap-2 mb-2">
+                           <Target className="w-3 h-3 text-gray-400" />
+                           <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Model Accuracy</div>
+                        </div>
+                        <div className="text-sm font-semibold text-gray-900">
+                          {selectedModel === 'Xception' ? '97.3% (Validation)' : '81.0% (Test)'}
+                        </div>
                       </div>
-                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-                        <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Time</div>
-                        <div className="text-sm font-semibold text-gray-900">{selectedModel === 'Xception' ? '~120ms' : '~42ms'}</div>
+
+                      <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex flex-col justify-between">
+                        <div className="flex items-center gap-2 mb-2">
+                           <Timer className="w-3 h-3 text-gray-400" />
+                           <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Latency</div>
+                        </div>
+                        <div className="text-sm font-semibold text-gray-900">
+                          {latency} ms
+                        </div>
                       </div>
+
                     </div>
 
                   </div>
