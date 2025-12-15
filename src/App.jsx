@@ -108,7 +108,7 @@ export default function App() {
           
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight mb-8 leading-[1.1]">
             Detect AI-Generated <br />
-            <span className="text-[#00B7B5]">Images.</span>
+            <span className="text-[#00B7B5]">Faces</span>
           </h1>
           
           <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
